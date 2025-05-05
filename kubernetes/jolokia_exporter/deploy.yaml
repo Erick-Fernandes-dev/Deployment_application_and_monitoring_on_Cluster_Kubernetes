@@ -1,0 +1,75 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jolokia-exporter-config
+  namespace: default
+data:
+  config.yaml: |
+    metrics:
+    - source:
+        mbean: java.lang:type=Memory
+        attribute: HeapMemoryUsage
+        path: used
+      target: java_memory_heap_memory_usage_used
+    - source:
+        mbean: java.lang:type=Memory
+        attribute: HeapMemoryUsage
+        path: max
+      target: java_memory_max
+    - source:
+        mbean: java.lang:type=Threading
+        attribute: ThreadCount
+      target: java_threading_thread_count
+    - source:
+        mbean: java.lang:type=OperatingSystem
+      target: java_os
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jolokia-exporter
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jolokia-exporter
+  template:
+    metadata:
+      labels:
+        app: jolokia-exporter
+    spec:
+      containers:
+        - name: jolokia-exporter
+          image: scalify/jolokia_exporter:latest
+          args:
+            - "export"
+            - "/config/config.yaml"
+            - "http://jenkins-service.default.svc.cluster.local:8778/jolokia/read"
+          ports:
+            - containerPort: 9422
+              name: metrics
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+              readOnly: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: jolokia-exporter-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jolokia-exporter
+  namespace: default
+spec:
+  ports:
+    - port: 9422
+      targetPort: 9422
+      protocol: TCP
+  selector:
+    app: jolokia-exporter
+  type: ClusterIP

@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment 
+spec:
+  replicas: 1 
+  selector:
+    matchLabels:
+      app: jenkins # Deve corresponder aos labels no template do Pod
+  template:
+    metadata:
+      labels:
+        app: jenkins # Label para identificar os Pods
+        metrics: "jolokia" # Label para identificar que expõe métricas via Jolokia
+    spec:
+      containers:
+      - name: jenkins-container
+        image: erickwolf/jenkins-tomcat-jolokia:latest
+        ports:
+        - containerPort: 8080 # Porta do Jenkins/Tomcat
+          name: http
+        - containerPort: 8778 # Porta do Jolokia
+          name: jolokia
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+      volumes:
+      - name: jmx-config
+        configMap:
+          name: jmx-config
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service 
+spec:
+  type: NodePort # NodePort ou LoadBalancer
+  selector:
+    app: jenkins 
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080 # Porta interna do Service
+      targetPort: 8080 # Porta do contêiner (Tomcat/Jenkins)
+      nodePort: 30080
+    - name: jolokia
+      protocol: TCP
+      port: 8778 # Porta interna do Service para Jolokia
+      targetPort: 8778 # Porta do contêiner (Jolokia)
+      nodePort: 30778

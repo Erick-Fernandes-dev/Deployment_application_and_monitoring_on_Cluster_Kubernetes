@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine
+  labels:
+    app: alpine
+spec:
+  containers:
+    - name: alpine
+      image: alpine:latest
+      command: ["/bin/sh", "-c"]
+      args:
+        - "ls /config && cat /config/config.yml && sleep 3600"
+      resources:
+        limits:
+          cpu: 100m
+          memory: 128Mi
+        requests:
+          cpu: 50m
+          memory: 64Mi
+      volumeMounts:
+        - name: jmx-config
+          mountPath: /config
+  volumes:
+    - name: jmx-config
+      configMap:
+        name: jmx-config
