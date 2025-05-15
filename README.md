@@ -916,8 +916,3 @@ endpoint Jolokia.
     
     ---
 
-● Os (as) aprovados (as) após avaliação do vídeo participarão da segunda fase
-para a apresentação técnica do projeto.
-
-● Durante a demonstração em vídeo, caso você tenha adotado, cite os pontos
-que você usou ferramentas de IA para agregar valor ao seu projeto.
