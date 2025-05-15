@@ -915,48 +915,6 @@ endpoint Jolokia.
     ![image.png](Desafio%20Esig%20para%20DevOps%201e81e83b35a08027b5b8f3ba66a4ec9d/image%2042.png)
     
     ---
-    
-
-## ⚠️ Observações:
-
-● Certifique-se de seguir as melhores práticas de segurança e configuração ao
-configurar o Jenkins.
-
-● Documente quaisquer etapas adicionais necessárias para a configuração ou
-implantação do Jenkins.
-
-● Todo o processo deverá ser documentado em um arquivo [README.md](http://readme.md/)
-(desde o processo de instalação até o processo de execução e acesso local
-ao projeto). A organização e boa documentação serão consideradas.
-
-● Caso não tenha concluído o projeto por inteiro, nos envie até onde chegou e
-as dificuldades encontradas.
-
-● O projeto deverá ser enviado através de um link em um repositório no Github.
-
-● Além do desafio, pode ser apresentado um outro projeto que utilize Jboss.
-Será contado como extra.
-
-● Caso entenda como importante, esse ambiente pode ser monitorado.
-Sugestão: usar prometheus e grafana em contêiner para isso pode usar as
-imagens:
-
-- Prometheus:
-    - image: prom/prometheus:latest
-- Grafana:
-    - image: grafana/grafana:latest
-    
-
-## 📖Instruções de Envio:
-
-● Monte uma apresentação na ferramenta de apresentação de sua preferência
-
-● Enviar atividade desenvolvida em resposta ao e-mail de envio da atividade.
-
-● Gravar um vídeo apresentando a atividade desenvolvida
-
-● Usar preferencialmente a ferramenta Loom para gravação e disponibilização
-do vídeo que deve ter entre 5 e 10 minutos de duração.
 
 ● Os (as) aprovados (as) após avaliação do vídeo participarão da segunda fase
 para a apresentação técnica do projeto.
